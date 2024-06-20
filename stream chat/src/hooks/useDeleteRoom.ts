@@ -1,17 +1,18 @@
 import { useRoomContext } from "@/context/roomContext";
-import { useState } from "react";
+import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const useLeaveRoom = () => {
+const useDeleteRoom = () => {
   const [loading, setLoading] = useState(false);
   const { room, setRoom } = useRoomContext();
 
-  const leaveRoom = async () => {
+  const deleteRoom = async () => {
+    setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/room/leave/${room._id}`,
+        `http://localhost:3000/api/room/delete/${room._id}`,
         {
-          method: "POST",
+          method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
@@ -20,18 +21,11 @@ const useLeaveRoom = () => {
       );
 
       const data = await res.json();
-
       if (data.error) {
         throw new Error(data.error);
       }
-      console.log(data);
       localStorage.removeItem("room");
-      setRoom({
-        _id: "",
-        name: "",
-        owner: "",
-        participants: [],
-      });
+      setRoom(data);
     } catch (error: any) {
       toast(`${error.message}`, {
         icon: "❌",
@@ -44,7 +38,7 @@ const useLeaveRoom = () => {
       setLoading(false);
     }
   };
-  return { loading, leaveRoom };
+  return { loading, deleteRoom };
 };
 
-export default useLeaveRoom;
+export default useDeleteRoom;

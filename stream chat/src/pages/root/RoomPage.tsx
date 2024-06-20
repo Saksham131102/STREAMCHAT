@@ -1,17 +1,19 @@
-import { Button } from "@/components/ui/button";
-import { useRoomContext } from "@/context/roomContext";
-
-const handleLeaveRoom = () => {
-  console.log("leave room");
-};
+import RoomNavbar from "@/components/RoomNavbar";
+import RoomSection from "@/components/RoomSection";
+import VideoSection from "@/components/VideoSection";
 
 const RoomPage = () => {
-  const { room } = useRoomContext();
-  console.log(room);
   return (
     <div>
-      <div>RoomPage</div>
-      <Button onClick={handleLeaveRoom}>Leave the room</Button>
+      <RoomNavbar />
+      <div className="grid grid-cols-5 h-screen bg-black">
+        <div className="col-span-4 flex items-center justify-center border-r border-[#ababab]">
+          <VideoSection />
+        </div>
+        <div className="col-span-1">
+          <RoomSection />
+        </div>
+      </div>
     </div>
   );
 };

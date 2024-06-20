@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Button } from "./ui/button";
+import useJoinRoom from "@/hooks/useJoinRoom";
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -30,6 +31,8 @@ const formSchema = z.object({
 });
 
 const JoinRoom = () => {
+  const { loading, joinRoom } = useJoinRoom();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -42,9 +45,12 @@ const JoinRoom = () => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
 
-    console.log(values);
-    // after submit, set default values to empty
-    form.reset({ name: "", password: "" });
+    const data = {
+      name: values.name,
+      password: values.password,
+    };
+
+    await joinRoom(data);
   }
 
   return (
@@ -109,15 +115,16 @@ const JoinRoom = () => {
                   className="w-1/3 max-w-md bg-[#dd0808] hover:bg-[#C30A0A] text-white text-lg"
                   type="submit"
                 >
-                  Join
+                  {loading ? (
+                    <span className="loading loading-spinner loading-sm"></span>
+                  ) : (
+                    "Join"
+                  )}
                 </Button>
               </div>
             </form>
           </Form>
         </div>
-        {/* <DialogFooter>
-              <Button type="submit">Save changes</Button>
-            </DialogFooter> */}
       </DialogContent>
     </Dialog>
   );

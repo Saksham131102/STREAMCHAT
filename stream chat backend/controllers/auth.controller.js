@@ -22,7 +22,10 @@ export const signup = async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt);
 
     // Generate random profile picture for the user
-    const randomProfilePic = `https://avatar.iran.liara.run/username?username=${username}`;
+    /* avatar.iran.liara.run is not working so shifted to dicebear */
+    // const randomProfilePic = `https://avatar.iran.liara.run/username?username=${username}`;
+
+    const randomProfilePic = `https://api.dicebear.com/9.x/bottts-neutral/svg?seed=${username}`;
 
     // Create new user
     const newUser = new User({

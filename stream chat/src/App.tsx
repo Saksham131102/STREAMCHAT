@@ -20,9 +20,6 @@ function App() {
     profilePic: "",
   };
 
-  console.log(authUser);
-  console.log(room);
-
   useEffect(() => {
     if (room._id !== "") {
       navigate("/home/room");
@@ -76,7 +73,11 @@ function App() {
               )
             }
           />
-          <Route path="room" element={<RoomPage />} />
+          <Route
+            path="room"
+            // element={room._id === "" ? <Navigate to="/home" /> : <RoomPage />}
+            element={<RoomPage />}
+          />
         </Route>
       </Routes>
       <Toaster />
