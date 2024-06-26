@@ -1,3 +1,4 @@
+import { useMessageContext } from "@/context/messageContext";
 import { useRoomContext } from "@/context/roomContext";
 import { useState } from "react";
 import toast from "react-hot-toast";
@@ -5,6 +6,7 @@ import toast from "react-hot-toast";
 const useLeaveRoom = () => {
   const [loading, setLoading] = useState(false);
   const { room, setRoom } = useRoomContext();
+  const { setMessages } = useMessageContext();
 
   const leaveRoom = async () => {
     try {
@@ -26,11 +28,16 @@ const useLeaveRoom = () => {
       }
       console.log(data);
       localStorage.removeItem("room");
+      setMessages([]);
       setRoom({
         _id: "",
         name: "",
         owner: "",
         participants: [],
+        video: {
+          public_id: "",
+          url: "",
+        },
       });
     } catch (error: any) {
       toast(`${error.message}`, {

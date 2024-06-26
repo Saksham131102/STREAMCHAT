@@ -5,6 +5,11 @@ interface IRoom {
   name: string;
   owner: string;
   participants: string[];
+  video: {
+    name: string;
+    public_id: string;
+    url: string;
+  };
 }
 
 interface RoomContextType {
@@ -18,6 +23,11 @@ const INITIAL_STATE = {
     name: "",
     owner: "",
     participants: [],
+    video: {
+      name: "",
+      public_id: "",
+      url: "",
+    },
   },
   setRoom: () => {},
 };

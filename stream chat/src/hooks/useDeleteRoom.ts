@@ -1,3 +1,4 @@
+import { useMessageContext } from "@/context/messageContext";
 import { useRoomContext } from "@/context/roomContext";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
@@ -5,6 +6,7 @@ import toast from "react-hot-toast";
 const useDeleteRoom = () => {
   const [loading, setLoading] = useState(false);
   const { room, setRoom } = useRoomContext();
+  const { setMessages } = useMessageContext();
 
   const deleteRoom = async () => {
     setLoading(true);
@@ -24,7 +26,10 @@ const useDeleteRoom = () => {
       if (data.error) {
         throw new Error(data.error);
       }
+      // delete the room from local storage
       localStorage.removeItem("room");
+      // set the messages to an empty array so that in context, useEffect removes the messages from the local storage
+      setMessages([]);
       setRoom(data);
     } catch (error: any) {
       toast(`${error.message}`, {

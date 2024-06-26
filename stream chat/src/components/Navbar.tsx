@@ -6,10 +6,10 @@ const Navbar = () => {
   return (
     <div className="navbar bg-[#2a2a2a] md:px-32 px-10 shadow-xl fixed py-5">
       <div className="flex-1">
-        <div className="text-3xl font-bold">
+        <h1 className="text-3xl font-bold">
           <span className="text-[#ababab]">Stream</span>
           <span className="text-[#dd0808]">Chat</span>
-        </div>
+        </h1>
       </div>
       <div className="flex-none">
         {localStorage.getItem("user") ? (
@@ -17,7 +17,7 @@ const Navbar = () => {
         ) : (
           <Link to={"/login"}>
             <Button className="bg-[#dd0808] rounded-md hover:bg-[#C30A0A]">
-              <span className="text-white text-lg">Login</span>
+              <h2 className="text-white text-lg">Login</h2>
             </Button>
           </Link>
         )}

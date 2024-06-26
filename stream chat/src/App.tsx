@@ -12,6 +12,7 @@ import { useEffect } from "react";
 function App() {
   const { authUser } = useAuthContext();
   const { room } = useRoomContext();
+  console.log(room);
   const navigate = useNavigate();
   const emptyUser = {
     _id: "",

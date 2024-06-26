@@ -1,16 +1,19 @@
+import { useMessageContext } from "@/context/messageContext";
+// import useGetMessages from "@/hooks/useGetMessages";
+
 const ChatSection = () => {
+  // const { loading, messages } = useGetMessages();
+  const { messages } = useMessageContext();
+  // console.log(messages);
   return (
     <div className="flex flex-col overflow-auto h-[84vh] justify-end p-3">
-      <div>hello1</div>
-      <div>hello2</div>
-      <div>hello3</div>
-      <div>hello4</div>
-      <div>hello5</div>
-      <div>hello6</div>
-      <div>hello7</div>
-      <div>hello8</div>
-      <div>hello9</div>
-      <div>hello10</div>
+      {messages.length > 0 &&
+        messages.map((message) => (
+          <div key={message._id}>
+            <div>{message.message}</div>
+          </div>
+        ))}
+      {messages.length === 0 && <p>No messages</p>}
     </div>
   );
 };

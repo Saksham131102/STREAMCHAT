@@ -12,7 +12,7 @@ const RoomDetails = () => {
   const { loading: isLeaving, leaveRoom } = useLeaveRoom();
   const { loading: isDeleting, deleteRoom } = useDeleteRoom();
 
-  console.log(room._id);
+  // console.log(room._id);
 
   const handleLeave = async () => {
     await leaveRoom();
@@ -28,20 +28,19 @@ const RoomDetails = () => {
         <div className="text-xl line-clamp-1">Room: {room?.name}</div>
       </div>
       <div className="flex items-center">
-        {/* <Button
-          onClick={handleLeave}
-          className="bg-[#dd0808] hover:bg-[#C30A0A] rounded-md p-0.5"
-        >
-          <GiExitDoor className="text-3xl text-white" />
-          {/* <MdDelete className="text-3xl text-white" />
-        </Button> */}
         {room.owner === authUser._id ? (
-          <Button
-            onClick={handleDelete}
-            className="bg-[#dd0808] hover:bg-[#C30A0A] rounded-md p-0.5"
-          >
-            <MdDelete className="text-3xl text-white" />
-          </Button>
+          isDeleting ? (
+            <span className="loading loading-spinner loading-sm"></span>
+          ) : (
+            <Button
+              onClick={handleDelete}
+              className="bg-[#dd0808] hover:bg-[#C30A0A] rounded-md p-0.5"
+            >
+              <MdDelete className="text-3xl text-white" />
+            </Button>
+          )
+        ) : isLeaving ? (
+          <span className="loading loading-spinner loading-sm"></span>
         ) : (
           <Button
             onClick={handleLeave}

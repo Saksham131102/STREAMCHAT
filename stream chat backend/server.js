@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import roomRoutes from "./routes/room.routes.js";
+import videoRoutes from "./routes/video.routes.js";
+import messageRoutes from "./routes/message.routes.js";
 import { connectToMongoDb } from "./DB/connectToMongoDb.js";
 
 const app = express();
@@ -20,6 +22,8 @@ dotenv.config();
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/room", roomRoutes);
+app.use("/api/message", messageRoutes);
+app.use("/api/video", videoRoutes);
 
 const PORT = process.env.PORT || 3000;
 

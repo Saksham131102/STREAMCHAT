@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import Room from "../models/room.model.js";
+import Message from "../models/message.model.js";
 
 export const createRoom = async (req, res) => {
   try {
@@ -28,11 +29,14 @@ export const createRoom = async (req, res) => {
     // Save room to database
     if (newRoom) {
       await newRoom.save();
+      // The user will create a room in socket io
+      // socker.join(roomId)
       return res.status(201).json({
         _id: newRoom._id,
         name: newRoom.name,
         owner: newRoom.owner,
         participants: newRoom.participants,
+        video: newRoom.video,
       });
     } else {
       return res
@@ -65,11 +69,13 @@ export const joinRoom = async (req, res) => {
     }
     room.participants.push(loggedInUserId);
     await room.save();
+    // Here we will send an emit event listener with loggedInUserId so that the frontend (other users in the room) can add the user to the room context
     return res.status(200).json({
       _id: room._id,
       name: room.name,
       owner: room.owner,
       participants: room.participants,
+      video: room.video,
     });
   } catch (error) {
     console.log("Error in joinRoom controller", error.message);
@@ -88,6 +94,7 @@ export const leaveRoom = async (req, res) => {
     if (!room.participants.includes(loggedInUserId)) {
       return res.status(400).json({ error: "You are not in this room" });
     }
+    // Here we will send an emit event listener with loggedInUserId so that the frontend (other users in the room) can remove the user from the room context
     room.participants = room.participants.filter(
       (participant) => participant.toString() !== loggedInUserId.toString()
     );
@@ -111,6 +118,11 @@ export const deleteRoom = async (req, res) => {
     if (!room) {
       return res.status(400).json({ error: "Room does not exist" });
     }
+
+    // First, delete all the messages in the room
+    await Message.deleteMany({ room: roomId });
+
+    // Then, delete the room
     const deletedRoom = await Room.findByIdAndDelete(roomId);
 
     if (!deletedRoom) {
@@ -132,6 +144,7 @@ export const deleteRoom = async (req, res) => {
       name: "",
       owner: "",
       participants: [],
+      video: { public_id: "", url: "" },
     });
   } catch (error) {
     console.log("Error in deleteRoom controller", error.message);

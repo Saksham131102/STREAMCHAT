@@ -27,6 +27,20 @@ const roomSchema = new mongoose.Schema(
         default: [],
       },
     ],
+    video: {
+      name: {
+        type: String,
+        default: "",
+      },
+      public_id: {
+        type: String,
+        default: "",
+      },
+      url: {
+        type: String,
+        default: "",
+      },
+    },
   },
   { timestamps: true }
 );
