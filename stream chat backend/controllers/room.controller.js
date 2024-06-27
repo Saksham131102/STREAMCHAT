@@ -29,8 +29,6 @@ export const createRoom = async (req, res) => {
     // Save room to database
     if (newRoom) {
       await newRoom.save();
-      // The user will create a room in socket io
-      // socker.join(roomId)
       return res.status(201).json({
         _id: newRoom._id,
         name: newRoom.name,

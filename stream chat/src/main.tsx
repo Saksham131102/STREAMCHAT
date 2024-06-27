@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import AuthContextProvider from "./context/authContext.tsx";
 import RoomContextProvider from "./context/roomContext.tsx";
 import MessageContextProvider from "./context/messageContext.tsx";
+import SocketContextProvider from "./context/socketContext.tsx";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <AuthContextProvider>
         <RoomContextProvider>
           <MessageContextProvider>
-            <App />
+            <SocketContextProvider>
+              <App />
+            </SocketContextProvider>
           </MessageContextProvider>
         </RoomContextProvider>
       </AuthContextProvider>

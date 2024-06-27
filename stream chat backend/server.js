@@ -7,8 +7,8 @@ import roomRoutes from "./routes/room.routes.js";
 import videoRoutes from "./routes/video.routes.js";
 import messageRoutes from "./routes/message.routes.js";
 import { connectToMongoDb } from "./DB/connectToMongoDb.js";
+import { app, server } from "./socket/socket.js";
 
-const app = express();
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -27,7 +27,7 @@ app.use("/api/video", videoRoutes);
 
 const PORT = process.env.PORT || 3000;
 
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   connectToMongoDb();
   console.log("Server started on port 3000");
 });
