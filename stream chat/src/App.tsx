@@ -8,10 +8,19 @@ import { useRoomContext } from "./context/roomContext";
 import Homepage from "./pages/root/Homepage";
 import RoomPage from "./pages/root/RoomPage.tsx";
 import { useEffect } from "react";
+import { useSocketContext } from "@/context/socketContext";
 
 function App() {
   const { authUser } = useAuthContext();
   const { room } = useRoomContext();
+  const SocketContext = useSocketContext();
+
+  if (!SocketContext) {
+    return null;
+  }
+
+  const { socket } = SocketContext;
+
   console.log(room);
   const navigate = useNavigate();
   const emptyUser = {
@@ -28,6 +37,21 @@ function App() {
       navigate("/home");
     }
   }, [room]);
+
+  useEffect(() => {
+    socket?.on("userJoinedRoom", (data) => {
+      console.log(data.userId, "has joined the room", data.roomId);
+    });
+
+    socket?.on("userLeftRoom", (data) => {
+      console.log(data.leftUserId, "has left the room", data.roomId);
+    });
+
+    return () => {
+      socket?.off("userJoinedRoom");
+      socket?.off("userLeftRoom");
+    };
+  }, [socket, room]);
   return (
     <div>
       <Routes>

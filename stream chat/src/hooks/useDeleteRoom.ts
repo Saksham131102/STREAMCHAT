@@ -1,5 +1,6 @@
 import { useMessageContext } from "@/context/messageContext";
 import { useRoomContext } from "@/context/roomContext";
+import { useSocketContext } from "@/context/socketContext";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -7,6 +8,13 @@ const useDeleteRoom = () => {
   const [loading, setLoading] = useState(false);
   const { room, setRoom } = useRoomContext();
   const { setMessages } = useMessageContext();
+  const SocketContext = useSocketContext();
+
+  if (!SocketContext) {
+    throw new Error("Socket context not found");
+  }
+
+  const { socket } = SocketContext;
 
   const deleteRoom = async () => {
     setLoading(true);
@@ -26,6 +34,8 @@ const useDeleteRoom = () => {
       if (data.error) {
         throw new Error(data.error);
       }
+
+      // socket?.emit("deleteRoom", room._id);
       // delete the room from local storage
       localStorage.removeItem("room");
       // set the messages to an empty array so that in context, useEffect removes the messages from the local storage

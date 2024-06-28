@@ -31,6 +31,8 @@ const useJoinRoom = () => {
         throw new Error(data.error);
       }
 
+      // .emit() event being sent to the server to join the room
+      // socket?.emit("joinRoom", data._id);
       localStorage.setItem("room", JSON.stringify(data));
       setRoom(data);
     } catch (error: any) {

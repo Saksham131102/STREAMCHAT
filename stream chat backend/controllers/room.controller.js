@@ -1,6 +1,7 @@
 import bcrypt from "bcryptjs";
 import Room from "../models/room.model.js";
 import Message from "../models/message.model.js";
+// import { io } from "../socket/socket.js";
 
 export const createRoom = async (req, res) => {
   try {
@@ -33,7 +34,7 @@ export const createRoom = async (req, res) => {
         _id: newRoom._id,
         name: newRoom.name,
         owner: newRoom.owner,
-        participants: newRoom.participants,
+        // participants: newRoom.participants,
         video: newRoom.video,
       });
     } else {
@@ -72,7 +73,7 @@ export const joinRoom = async (req, res) => {
       _id: room._id,
       name: room.name,
       owner: room.owner,
-      participants: room.participants,
+      // participants: room.participants,
       video: room.video,
     });
   } catch (error) {
@@ -101,7 +102,8 @@ export const leaveRoom = async (req, res) => {
       _id: room._id,
       name: room.name,
       owner: room.owner,
-      participants: room.participants,
+      // participants: room.participants,
+      video: room.video,
     });
   } catch (error) {
     console.log("Error in leaveRoom controller", error.message);
@@ -137,11 +139,26 @@ export const deleteRoom = async (req, res) => {
     //   // making room context as empty context
     // })
 
+    // io.in(roomId).emit("roomDeleted", roomId);
+
+    // const sockets = io.sockets.adapter.room.get(roomId) || [];
+
+    // sockets.forEach((socketId) => {
+    //   const socket = io.sockets.sockets.get(socketId);
+    //   if (sockets) {
+    //     socket.leave(roomId);
+    //   }
+    // });
+
+    // const users = io.sockets.adapter.rooms.get(roomId);
+    // const usersInRoom = users ? users.size : 0;
+    // console.log("usersInRoom", usersInRoom);
+
     return res.status(200).json({
       _id: "",
       name: "",
       owner: "",
-      participants: [],
+      // participants: [],
       video: { public_id: "", url: "" },
     });
   } catch (error) {

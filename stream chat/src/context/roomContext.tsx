@@ -4,7 +4,7 @@ interface IRoom {
   _id: string;
   name: string;
   owner: string;
-  participants: string[];
+  // participants: string[];
   video: {
     name: string;
     public_id: string;
@@ -22,7 +22,7 @@ const INITIAL_STATE = {
     _id: "",
     name: "",
     owner: "",
-    participants: [],
+    // participants: [],
     video: {
       name: "",
       public_id: "",

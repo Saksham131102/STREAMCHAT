@@ -11,7 +11,6 @@ interface CreateRoomProps {
 const useCreateRoom = () => {
   const [loading, setLoading] = useState(false);
   const { setRoom } = useRoomContext();
-  // const navigate = useNavigate();
 
   const createRoom = async ({ name, password }: CreateRoomProps) => {
     setLoading(true);
@@ -34,6 +33,8 @@ const useCreateRoom = () => {
         throw new Error(data.error);
       }
 
+      // .emit() event being sent to the server to join the room
+      // socket?.emit("joinRoom", data._id);
       localStorage.setItem("room", JSON.stringify(data));
       setRoom(data);
       // navigate(`/home/${data.name}`);

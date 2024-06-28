@@ -12,7 +12,57 @@ const io = new Server(server, {
 });
 
 io.on("connection", (socket) => {
-  console.log("a user connected", socket.handshake.query.userId);
+  const userId = socket.handshake.query.userId;
+  const roomId = socket.handshake.query.roomId;
+  console.log("a user connected", userId);
+
+  // Join Room
+  socket.join(roomId);
+
+  console.log(userId, "user joined room", roomId);
+
+  // number of users in room "roomId"
+  const users = io.sockets.adapter.rooms.get(roomId);
+  const usersInRoom = users ? users.size : 0;
+  console.log("usersInRoom", usersInRoom);
+
+  // Emitting the event to all the users in the room "roomId" that
+  // the user "userId" joined the room
+  socket.in(roomId).emit("userJoinedRoom", {
+    userId: socket.handshake.query.userId,
+    roomId: socket.handshake.query.roomId,
+  });
+
+  // Leave Room
+  socket.on("leaveRoom", (roomId, leftUserId) => {
+    // First, send the leave event to the frontend
+    socket.in(roomId).emit("userLeftRoom", {
+      roomId,
+      leftUserId,
+    });
+
+    // Then, leave the room
+    socket.leave(roomId);
+
+    console.log("user left room", roomId);
+
+    const users = io.sockets.adapter.rooms.get(roomId);
+    const usersInRoom = users ? users.size : 0;
+    console.log("usersInRoom", usersInRoom);
+  });
+
+  // Delete Room
+  socket.on("deleteRoom", (roomId) => {
+    const sockets = io.sockets.adapter.room.get(roomId) || [];
+
+    sockets.forEach((socketId) => {
+      const socket = io.sockets.sockets.get(socketId);
+      if (sockets) {
+        socket.leave(roomId);
+      }
+    });
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
