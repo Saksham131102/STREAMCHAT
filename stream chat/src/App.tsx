@@ -12,7 +12,7 @@ import { useSocketContext } from "@/context/socketContext";
 
 function App() {
   const { authUser } = useAuthContext();
-  const { room } = useRoomContext();
+  const { room, setRoom } = useRoomContext();
   const SocketContext = useSocketContext();
 
   if (!SocketContext) {
@@ -45,6 +45,21 @@ function App() {
 
     socket?.on("userLeftRoom", (data) => {
       console.log(data.leftUserId, "has left the room", data.roomId);
+    });
+
+    socket?.on("roomDeleted", (roomId) => {
+      console.log(roomId, "has been deleted by the owner");
+      setRoom({
+        _id: "",
+        name: "",
+        owner: "",
+        // participants: [],
+        video: {
+          name: "",
+          public_id: "",
+          url: "",
+        },
+      });
     });
 
     return () => {
