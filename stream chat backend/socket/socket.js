@@ -71,6 +71,10 @@ io.on("connection", (socket) => {
     socket.in(roomId).emit("roomDeleted", roomId);
   });
 
+  socket.on("sendMessage", (message) => {
+    socket.in(message.room).emit("newMessage", message);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });

@@ -1,5 +1,6 @@
 import { useMessageContext } from "@/context/messageContext";
 import { useRoomContext } from "@/context/roomContext";
+import { useSocketContext } from "@/context/socketContext";
 import { useState } from "react";
 import toast from "react-hot-toast";
 
@@ -7,6 +8,13 @@ const useSendMessage = () => {
   const [loading, setLoading] = useState(false);
   const { room } = useRoomContext();
   const { messages, setMessages } = useMessageContext();
+  const SocketContext = useSocketContext();
+
+  if (!SocketContext) {
+    throw new Error("Socket context not found");
+  }
+
+  const { socket } = SocketContext;
 
   const sendMessage = async (message: string) => {
     setLoading(true);
@@ -29,6 +37,7 @@ const useSendMessage = () => {
       if (data.error) {
         throw new Error(data.error);
       }
+      socket?.emit("sendMessage", data);
       setMessages([...messages, data]);
       setLoading(false);
     } catch (error: any) {

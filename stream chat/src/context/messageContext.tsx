@@ -4,7 +4,9 @@ interface IMessage {
   _id: string;
   message: string;
   sender: string;
+  profilePic: string;
   room: string;
+  time: string;
 }
 
 interface MessageContextType {

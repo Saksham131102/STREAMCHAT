@@ -23,7 +23,7 @@ const RoomDetails = () => {
   };
 
   return (
-    <div className="flex justify-between p-3 border-b border-[#ababab] text-[#ababab]">
+    <div className="flex justify-between p-3 border-y border-[#ababab] text-[#ababab]">
       <div className="flex flex-col justify-center">
         <div className="text-xl line-clamp-1">Room: {room?.name}</div>
       </div>

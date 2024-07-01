@@ -1,5 +1,6 @@
 import Message from "../models/message.model.js";
 import Room from "../models/room.model.js";
+import User from "../models/user.model.js";
 
 export const sendMessage = async (req, res) => {
   try {
@@ -18,7 +19,17 @@ export const sendMessage = async (req, res) => {
     await newMessage.save();
     room.messages.push(newMessage._id);
     await room.save();
-    return res.status(200).json(newMessage);
+    const populatedMessage = await Message.findById(newMessage._id).populate(
+      "sender"
+    );
+    return res.status(200).json({
+      _id: populatedMessage._id,
+      message: populatedMessage.message,
+      sender: populatedMessage.sender.username,
+      profilePic: populatedMessage.sender.profilePic,
+      room: populatedMessage.room,
+      time: populatedMessage.createdAt,
+    });
   } catch (error) {
     console.log("Error in sendMessage controller", error.message);
     return res.status(500).json({ error: "Internal server error" });

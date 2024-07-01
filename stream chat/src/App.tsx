@@ -9,10 +9,12 @@ import Homepage from "./pages/root/Homepage";
 import RoomPage from "./pages/root/RoomPage.tsx";
 import { useEffect } from "react";
 import { useSocketContext } from "@/context/socketContext";
+import { useMessageContext } from "./context/messageContext.tsx";
 
 function App() {
   const { authUser } = useAuthContext();
   const { room, setRoom } = useRoomContext();
+  const { setMessages } = useMessageContext();
   const SocketContext = useSocketContext();
 
   if (!SocketContext) {
@@ -49,6 +51,8 @@ function App() {
 
     socket?.on("roomDeleted", (roomId) => {
       console.log(roomId, "has been deleted by the owner");
+      localStorage.removeItem("room");
+      localStorage.removeItem("messages");
       setRoom({
         _id: "",
         name: "",
@@ -62,9 +66,15 @@ function App() {
       });
     });
 
+    socket?.on("newMessage", (data) => {
+      setMessages((prev) => [...prev, data]);
+    });
+
     return () => {
       socket?.off("userJoinedRoom");
       socket?.off("userLeftRoom");
+      socket?.off("roomDeleted");
+      socket?.off("newMessage");
     };
   }, [socket, room]);
   return (

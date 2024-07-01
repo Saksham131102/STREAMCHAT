@@ -1,19 +1,35 @@
 import RoomNavbar from "@/components/RoomNavbar";
 import RoomSection from "@/components/RoomSection";
 import VideoSection from "@/components/VideoSection";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
+import { useEffect } from "react";
 
 const RoomPage = () => {
+  useEffect(() => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  }, []);
   return (
     <div>
-      <RoomNavbar />
-      <div className="grid grid-cols-5 h-screen bg-black">
-        <div className="col-span-4 flex items-center justify-center border-r border-[#ababab]">
+      {/* <RoomNavbar /> */}
+      <ResizablePanelGroup direction="horizontal">
+        <ResizablePanel
+          defaultSize={75}
+          className="flex items-center justify-center border border-[#ababab]"
+        >
           <VideoSection />
-        </div>
-        <div className="col-span-1">
+        </ResizablePanel>
+        <ResizableHandle withHandle />
+        <ResizablePanel defaultSize={25} className="border border-[#ababab]">
           <RoomSection />
-        </div>
-      </div>
+        </ResizablePanel>
+      </ResizablePanelGroup>
     </div>
   );
 };
