@@ -9,6 +9,7 @@ import { useSocketContext } from "@/context/socketContext";
 import { FaVideoSlash } from "react-icons/fa";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
+import VideoPlayer from "./Player/VideoPlayer";
 
 const VideoSection = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -96,13 +97,14 @@ const VideoSection = () => {
     <>
       {room.owner === authUser._id ? (
         room.video.public_id !== "" ? (
-          <ReactPlayer
-            url={room.video.url}
-            controls={true}
-            playing={false}
-            width="100%"
-            height="90%"
-          />
+          // <ReactPlayer
+          //   url={room.video.url}
+          //   controls={true}
+          //   playing={false}
+          //   width="100%"
+          //   height="90%"
+          // />
+          <VideoPlayer src={room.video.url} autoPlay={false} />
         ) : (
           <form
             onSubmit={handleFileUpload}

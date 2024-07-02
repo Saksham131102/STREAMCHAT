@@ -21,7 +21,7 @@ const RoomPage = () => {
       <ResizablePanelGroup direction="horizontal">
         <ResizablePanel
           defaultSize={75}
-          className="flex items-center justify-center border border-[#ababab]"
+          className="flex h-screen items-center justify-center border border-[#ababab]"
         >
           <VideoSection />
         </ResizablePanel>
