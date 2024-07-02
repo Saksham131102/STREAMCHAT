@@ -64,6 +64,8 @@ function App() {
           url: "",
         },
       });
+
+      setMessages([]);
     });
 
     socket?.on("newMessage", (data) => {
@@ -80,6 +82,7 @@ function App() {
       socket?.off("userLeftRoom");
       socket?.off("roomDeleted");
       socket?.off("newMessage");
+      socket?.off("newVideo");
     };
   }, [socket, room]);
   return (

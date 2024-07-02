@@ -15,7 +15,7 @@ const ChatSection = () => {
     }, 100);
   }, [messages]);
   return (
-    <div className="flex flex-col overflow-y-auto h-[84vh] justify-end p-3">
+    <div className="flex flex-col overflow-y-auto h-[calc(100vh-8.3rem)] justify-end p-3 py-0">
       <ScrollArea>
         {messages.length > 0 &&
           messages.map((message) => (
@@ -23,7 +23,9 @@ const ChatSection = () => {
               <Message message={message} />
             </div>
           ))}
-        {messages.length === 0 && <p>No messages</p>}
+        {messages.length === 0 && (
+          <div className="flex justify-center items-center text-[#ababab]"></div>
+        )}
       </ScrollArea>
     </div>
   );

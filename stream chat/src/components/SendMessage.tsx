@@ -28,14 +28,30 @@ const SendMessage = () => {
       }
     }
   };
+
+  const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setMessage(e.target.value);
+    adjustTextareaHeight();
+  };
+
+  const adjustTextareaHeight = () => {
+    const textarea = textareaRef.current as HTMLTextAreaElement;
+    textarea.style.height = "auto";
+    textarea.style.height = textarea.scrollHeight + "px";
+  };
+
+  // useEffect(() => {
+  //   adjustTextareaHeight();
+  // }, []);
+
   return (
-    <div className="flex relative p-3 items-center gap-2 border-b border-[#ababab]">
+    <div className="flex p-3 items-center gap-2 border-b border-[#ababab]">
       <Textarea
-        className="line-clamp-1 break-words overflow-auto p-2 min-h-[42px] max-h-[42px]  w-full border-[#ababab] border-2 pl-4 pr-12 focus-visible:ring-0 focus-visible:ring-offset-0"
+        className="break-words overflow-auto p-2 min-h-[40px] max-h-[40px] w-full border-[#ababab] border-[1px] pl-4 pr-12 focus-visible:ring-0 focus-visible:ring-offset-0"
         // type="text"
         value={message}
         ref={textareaRef}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={handleInput}
         onKeyDown={handleKeyDown}
         placeholder=""
       />
