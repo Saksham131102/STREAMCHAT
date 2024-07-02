@@ -75,6 +75,10 @@ io.on("connection", (socket) => {
     socket.in(message.room).emit("newMessage", message);
   });
 
+  socket.on("sendVideo", (data, roomId) => {
+    socket.in(roomId).emit("newVideo", data);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });

@@ -70,6 +70,11 @@ function App() {
       setMessages((prev) => [...prev, data]);
     });
 
+    socket?.on("newVideo", (data) => {
+      setRoom(data);
+      localStorage.setItem("room", JSON.stringify(data));
+    });
+
     return () => {
       socket?.off("userJoinedRoom");
       socket?.off("userLeftRoom");

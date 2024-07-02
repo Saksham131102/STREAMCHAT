@@ -1,5 +1,5 @@
 import express from "express";
-import authorize from "../middleware/authorization.js";
+// import authorize from "../middleware/authorization.js";
 import { addVideo } from "../controllers/video.controller.js";
 import upload from "../middleware/multer/multer.js";
 

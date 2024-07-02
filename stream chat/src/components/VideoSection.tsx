@@ -5,11 +5,20 @@ import axios from "axios";
 import { useRoomContext } from "@/context/roomContext";
 import toast from "react-hot-toast";
 import { useAuthContext } from "@/context/authContext";
+import { useSocketContext } from "@/context/socketContext";
 
 const VideoSection = () => {
   const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
   const { room, setRoom } = useRoomContext();
   const { authUser } = useAuthContext();
+  const SocketContext = useSocketContext();
+
+  if (!SocketContext) {
+    throw new Error("Socket context not found");
+  }
+
+  const { socket } = SocketContext;
 
   const handleFileChange = (e: any) => {
     if (e.target.files) {
@@ -18,10 +27,18 @@ const VideoSection = () => {
   };
   const handleFileUpload = async (e: FormEvent) => {
     e.preventDefault();
+    setLoading(true);
     console.log(file);
 
     if (!file) {
       console.error("No file selected");
+      toast(`No file selected`, {
+        icon: "❌",
+        style: {
+          background: "#7f1e1d",
+          color: "#fff",
+        },
+      });
       return;
     }
     const formData = new FormData();
@@ -41,6 +58,7 @@ const VideoSection = () => {
         throw new Error(data.error);
       }
 
+      socket?.emit("sendVideo", data, room._id);
       setRoom(data);
       localStorage.setItem("room", JSON.stringify(data));
     } catch (error: any) {
@@ -52,6 +70,8 @@ const VideoSection = () => {
         },
       });
     }
+
+    setLoading(false);
   };
 
   return (
@@ -76,6 +96,7 @@ const VideoSection = () => {
           <ReactPlayer
             url={room.video.url}
             controls={true}
+            playing={false}
             width="100%"
             height="90%"
           />
@@ -85,13 +106,19 @@ const VideoSection = () => {
             className="flex flex-col items-start gap-3"
           >
             <input type="file" accept="video/*" onChange={handleFileChange} />
-            <Button type="submit">Submit</Button>
+            <Button disabled={loading} type="submit">
+              {loading ? (
+                <span className="loading loading-spinner loading-sm"></span>
+              ) : (
+                "Submit"
+              )}
+            </Button>
           </form>
         )
       ) : room.video.public_id !== "" ? (
         <ReactPlayer
           url={room.video.url}
-          controls={true}
+          controls={false}
           width="100%"
           height="90%"
         />

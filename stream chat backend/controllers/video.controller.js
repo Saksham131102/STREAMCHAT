@@ -38,7 +38,6 @@ export const addVideo = async (req, res) => {
       _id: room._id,
       name: room.name,
       owner: room.owner,
-      participants: room.participants,
       video: {
         name: req.file.filename,
         public_id: result.public_id,
