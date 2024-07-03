@@ -7,8 +7,8 @@ interface ProgressProps {
   seekProgress: number;
   seekTooltipPosition: string;
   seekTooltip: string;
-  onHover: (event: React.MouseEvent) => void;
-  onSeek: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  onHover?: (event: React.MouseEvent) => void;
+  onSeek?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 const Progress: React.FC<ProgressProps> = ({
@@ -18,8 +18,8 @@ const Progress: React.FC<ProgressProps> = ({
   seekProgress,
   seekTooltipPosition,
   seekTooltip,
-  onHover,
-  onSeek,
+  onHover = () => {},
+  onSeek = () => {},
 }) => {
   return (
     <div className="vp-progress">

@@ -40,15 +40,10 @@ const SendMessage = () => {
     textarea.style.height = textarea.scrollHeight + "px";
   };
 
-  // useEffect(() => {
-  //   adjustTextareaHeight();
-  // }, []);
-
   return (
     <div className="flex p-3 items-center gap-2 border-b border-[#ababab]">
       <Textarea
-        className="break-words overflow-auto p-2 min-h-[40px] max-h-[40px] w-full border-[#ababab] border-[1px] pl-4 pr-12 focus-visible:ring-0 focus-visible:ring-offset-0"
-        // type="text"
+        className="text-[#ababab] break-words overflow-auto p-2 min-h-[40px] max-h-[40px] w-full border-[#ababab] border-[1px] pl-4 pr-12 focus-visible:ring-0 focus-visible:ring-offset-0"
         value={message}
         ref={textareaRef}
         onChange={handleInput}

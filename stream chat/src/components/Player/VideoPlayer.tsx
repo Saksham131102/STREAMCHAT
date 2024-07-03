@@ -8,7 +8,7 @@ import Progress from "./Controls/Progress";
 import Time from "./Controls/Time";
 import Pip from "./Controls/Pip";
 import Fullscreen from "./Controls/Fullscreen";
-import Settings from "./Controls/Settings";
+// import Settings from "./Controls/Settings";
 import Dropdown from "./Controls/Dropdown";
 import Loader from "./UI/Loader/Loader";
 import KeyAction, { KeyActionHandle } from "./UI/KeyAction/KeyAction";
@@ -17,13 +17,21 @@ import { useTimeout } from "../../hooks/timer-hook";
 import { useLocalStorage } from "../../hooks/storage-hook";
 import { formatTime } from "../../util/format";
 import "./VideoPlayer.css";
+import { useSocketContext } from "@/context/socketContext";
+import { useRoomContext } from "@/context/roomContext";
 
 interface VideoPlayerProps {
   src: string;
   autoPlay?: boolean;
+  controls?: boolean;
 }
 
-const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
+const VideoPlayer: React.FC<VideoPlayerProps> = ({
+  src,
+  autoPlay = true,
+  controls = false,
+}) => {
+  const [seekData, setSeekData] = useState<number | null>(null);
   const [displayControls, setDisplayControls] = useState(true);
   const [playbackState, setPlaybackState] = useState(false);
   const [volumeState, setVolumeState] = useLocalStorage("video-volume", 1);
@@ -58,6 +66,18 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
   const [setControlsTimeout] = useTimeout();
   const [setKeyActionVolumeTimeout] = useTimeout();
   const [setLoaderTimeout, clearLoaderTimeout] = useTimeout();
+
+  /**
+   * SOCKET CONTEXT
+   */
+
+  const { room } = useRoomContext();
+
+  const SocketContext = useSocketContext();
+  if (!SocketContext) {
+    return null;
+  }
+  const { socket } = SocketContext;
 
   /**
    * TOGGLE SHOWING CONTROLS
@@ -244,6 +264,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
       video.currentTime = skipTo;
       setCurrentProgress((skipTo / video.duration) * 100);
       setSeekProgress(skipTo);
+      setSeekData(skipTo);
     },
     []
   );
@@ -354,9 +375,9 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
    * DROPDOWN
    */
 
-  const toggleDropdownHandler = useCallback(() => {
-    setDisplayDropdown((prev) => !prev);
-  }, []);
+  // const toggleDropdownHandler = useCallback(() => {
+  //   setDisplayDropdown((prev) => !prev);
+  // }, []);
 
   /**
    * SETTINGS
@@ -396,10 +417,12 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
         case "ArrowLeft":
           event.preventDefault();
           rewindHandler();
+          socket?.emit("rewind", room._id);
           break;
         case "ArrowRight":
           event.preventDefault();
           skipHandler();
+          socket?.emit("skip", room._id);
           break;
         case "ArrowUp":
           event.preventDefault();
@@ -432,6 +455,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
         case " ":
           event.preventDefault();
           togglePlayHandler();
+          socket?.emit("togglePlay", room._id);
           break;
       }
     },
@@ -490,6 +514,50 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
   }, [fullscreenChangeHandler, keyEventHandler]);
 
   /**
+   * SEEK SOCKET EVENT
+   */
+  useEffect(() => {
+    if (seekData !== null) {
+      socket?.emit("seek", room._id, seekData);
+    }
+  }, [seekData]);
+
+  /**
+   * SOCKET FUNCTIONALITY
+   */
+
+  useEffect(() => {
+    socket?.on("togglePlay", () => {
+      togglePlayHandler();
+    });
+
+    socket?.on("rewind", () => {
+      rewindHandler();
+    });
+
+    socket?.on("skip", () => {
+      skipHandler();
+    });
+
+    const handleSeek = (seekData: number) => {
+      const video = videoRef.current!;
+      video.currentTime = seekData;
+      setCurrentProgress((seekData / video.duration) * 100);
+      setSeekProgress(seekData);
+    };
+
+    socket?.on("seek", handleSeek);
+
+    // Cleanup
+    return () => {
+      socket?.off("togglePlay");
+      socket?.off("rewind");
+      socket?.off("skip");
+      socket?.off("seek");
+    };
+  }, [socket, room._id]);
+
+  /**
    * RENDER
    */
 
@@ -506,7 +574,14 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
         src={src}
         controls={false}
         onLoadedMetadata={videoLoadedHandler}
-        onClick={togglePlayHandler}
+        onClick={
+          controls
+            ? () => {
+                togglePlayHandler();
+                socket?.emit("togglePlay", room._id);
+              }
+            : () => {}
+        }
         onPlay={videoPlayHandler}
         onPause={videoPauseHandler}
         onVolumeChange={volumeChangeHandler}
@@ -543,7 +618,7 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
             seekTooltip={seekTooltip}
             seekTooltipPosition={seekTooltipPosition}
             onHover={seekMouseMoveHandler}
-            onSeek={seekInputHandler}
+            onSeek={controls ? seekInputHandler : () => {}}
           />
           <Time time={remainedTimeUI} />
         </div>
@@ -555,13 +630,43 @@ const VideoPlayer: React.FC<VideoPlayerProps> = ({ src, autoPlay = true }) => {
               onSeek={volumeInputHandler}
             />
           </div>
+          {controls && (
+            <div>
+              <Rewind
+                onRewind={
+                  controls
+                    ? () => {
+                        rewindHandler();
+                        socket?.emit("rewind", room._id);
+                      }
+                    : () => {}
+                }
+              />
+              <Playback
+                isPlaying={playbackState}
+                onToggle={
+                  controls
+                    ? () => {
+                        togglePlayHandler();
+                        socket?.emit("togglePlay", room._id);
+                      }
+                    : () => {}
+                }
+              />
+              <Skip
+                onSkip={
+                  controls
+                    ? () => {
+                        skipHandler();
+                        socket?.emit("skip", room._id);
+                      }
+                    : () => {}
+                }
+              />
+            </div>
+          )}
           <div>
-            <Rewind onRewind={rewindHandler} />
-            <Playback isPlaying={playbackState} onToggle={togglePlayHandler} />
-            <Skip onSkip={skipHandler} />
-          </div>
-          <div>
-            <Settings onToggle={toggleDropdownHandler} />
+            {/* {controls && <Settings onToggle={toggleDropdownHandler} />} */}
             <Pip isPipMode={pipState} onToggle={togglePipHandler} />
             <Fullscreen
               isFullscreen={fullscreenState}

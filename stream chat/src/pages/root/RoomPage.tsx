@@ -1,4 +1,4 @@
-import RoomNavbar from "@/components/RoomNavbar";
+// import RoomNavbar from "@/components/RoomNavbar";
 import RoomSection from "@/components/RoomSection";
 import VideoSection from "@/components/VideoSection";
 import {

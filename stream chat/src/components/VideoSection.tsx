@@ -1,4 +1,3 @@
-import ReactPlayer from "react-player";
 import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
 import axios from "axios";
@@ -79,38 +78,15 @@ const VideoSection = () => {
   };
 
   return (
-    // <div>
-    // <form
-    //   onSubmit={handleFileUpload}
-    //   className="flex flex-col items-start gap-3"
-    // >
-    //   <input type="file" accept="video/*" onChange={handleFileChange} />
-    //   <Button type="submit">Submit</Button>
-    // </form>
-    // </div>
-    // <ReactPlayer
-    //   url={room.video.url}
-    //   controls={true}
-    //   width="100%"
-    //   height="90%"
-    // />
     <>
       {room.owner === authUser._id ? (
         room.video.public_id !== "" ? (
-          // <ReactPlayer
-          //   url={room.video.url}
-          //   controls={true}
-          //   playing={false}
-          //   width="100%"
-          //   height="90%"
-          // />
-          <VideoPlayer src={room.video.url} autoPlay={false} />
+          <VideoPlayer src={room.video.url} autoPlay={false} controls={true} />
         ) : (
           <form
             onSubmit={handleFileUpload}
             className="flex flex-col items-start gap-3"
           >
-            {/* <div className="grid w-full max-w-sm items-center gap-1.5"> */}
             <Label htmlFor="video" className="text-[#ababab]">
               Upload a Video
             </Label>
@@ -121,7 +97,6 @@ const VideoSection = () => {
               accept="video/*"
               onChange={handleFileChange}
             />
-            {/* </div> */}
             <Button
               className="bg-[#dd0808] hover:bg-[#C30A0A] text-white"
               disabled={loading}
@@ -136,12 +111,7 @@ const VideoSection = () => {
           </form>
         )
       ) : room.video.public_id !== "" ? (
-        <ReactPlayer
-          url={room.video.url}
-          controls={false}
-          width="100%"
-          height="90%"
-        />
+        <VideoPlayer src={room.video.url} autoPlay={false} controls={false} />
       ) : (
         <div className="flex flex-col justify-center items-center gap-3 text-[#ababab]">
           <FaVideoSlash className="w-20 h-20" />

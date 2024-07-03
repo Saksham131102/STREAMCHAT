@@ -79,6 +79,22 @@ io.on("connection", (socket) => {
     socket.in(roomId).emit("newVideo", data);
   });
 
+  socket.on("togglePlay", (roomId) => {
+    socket.in(roomId).emit("togglePlay");
+  });
+
+  socket.on("rewind", (roomId) => {
+    socket.in(roomId).emit("rewind");
+  });
+
+  socket.on("skip", (roomId) => {
+    socket.in(roomId).emit("skip");
+  });
+
+  socket.on("seek", (roomId, seekData) => {
+    socket.in(roomId).emit("seek", seekData);
+  });
+
   socket.on("disconnect", () => {
     console.log("user disconnected");
   });
