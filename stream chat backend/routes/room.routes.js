@@ -9,10 +9,10 @@ import {
 
 const router = express.Router();
 
-router.post("/create", authorize, createRoom);
-router.post("/join", authorize, joinRoom);
+router.post("/create", createRoom);
+router.post("/join", joinRoom);
 // router.delete("/leave/:id", authorize, leaveRoom);
-router.post("/leave/:roomId", authorize, leaveRoom);
-router.delete("/delete/:roomId", authorize, deleteRoom);
+router.post("/leave/:roomId", leaveRoom);
+router.delete("/delete/:roomId", deleteRoom);
 
 export default router;
