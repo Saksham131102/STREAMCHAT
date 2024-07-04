@@ -23,7 +23,6 @@ function App() {
 
   const { socket } = SocketContext;
 
-  console.log(room);
   const navigate = useNavigate();
   const emptyUser = {
     _id: "",
