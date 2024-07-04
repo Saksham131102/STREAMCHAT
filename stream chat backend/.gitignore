@@ -1,3 +1,4 @@
 
 # This file contains my cloudinary credentials.
-video.controller.js
+controllers/video.controller.js
+# /controllers/video.controller.js
