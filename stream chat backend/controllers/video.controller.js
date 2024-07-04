@@ -22,6 +22,7 @@ export const addVideo = async (req, res) => {
     if (!room) {
       return res.status(400).json({ error: "Room does not exist" });
     }
+    console.log(req.file);
     // If room exists, upload the video to cloudinary
     const result = await cloudinary.uploader
       .upload(req.file.path, {
@@ -29,6 +30,7 @@ export const addVideo = async (req, res) => {
       })
       .catch((error) => {
         console.log(error);
+        console.log("first error");
       });
 
     // Need to remove the uploaded video from the uploads directory after uploading video
