@@ -6,8 +6,7 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
-    accessControlAllowOrigin: "https://streamchat1.netlify.app/",
-    origin: "https://streamchat1.netlify.app/",
+    origin: "https://streamchat1.netlify.app",
     methods: ["GET", "POST"],
   },
 });
