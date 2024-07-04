@@ -6,7 +6,7 @@ const UserDetails = () => {
   return (
     <div className="flex items-center pl-10 md:pl-32 mt-5">
       <div className="avatar">
-        <div className="w-16 rounded-full -z-10">
+        <div className="w-16 rounded-full">
           <img src={authUser?.profilePic} />
         </div>
       </div>
