@@ -1,4 +1,3 @@
-import React from "react";
 import { Button } from "@/components/ui/button";
 import { GoArrowUpRight } from "react-icons/go";
 import { Link } from "react-router-dom";
