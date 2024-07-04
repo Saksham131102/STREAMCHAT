@@ -20,7 +20,7 @@ const useDeleteRoom = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/room/delete/${room._id}`,
+        `https://streamchat.onrender.com/api/room/delete/${room._id}`,
         {
           method: "DELETE",
           headers: {

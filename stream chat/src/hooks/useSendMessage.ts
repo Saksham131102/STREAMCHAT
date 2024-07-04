@@ -20,7 +20,7 @@ const useSendMessage = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        `http://localhost:3000/api/message/send/${room._id}`,
+        `https://streamchat.onrender.com/api/message/send/${room._id}`,
         {
           method: "POST",
           headers: {

@@ -17,7 +17,7 @@ const SocketContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     if (room._id !== "") {
-      const socket = io("http://localhost:3000", {
+      const socket = io("https://streamchat.onrender.com", {
         query: {
           userId: authUser._id,
           roomId: room._id,

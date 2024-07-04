@@ -48,7 +48,7 @@ const VideoSection = () => {
     formData.append("video", file);
     try {
       const response = await axios.post(
-        `http://localhost:3000/api/video/upload/${room._id}`,
+        `https://streamchat.onrender.com/api/video/upload/${room._id}`,
         formData,
         {
           headers: {

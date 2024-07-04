@@ -15,7 +15,7 @@ const useUploadVideo = () => {
   }) => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3000/api/video/add", {
+      const res = await fetch("https://streamchat.onrender.com/api/video/add", {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
