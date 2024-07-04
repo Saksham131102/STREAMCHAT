@@ -2,6 +2,7 @@
 // So need to put it in .gitignore to ignore this file in github
 
 import Room from "../models/room.model.js";
+import fs from "fs";
 // import cloudinary from "../cloudinary/cloudinary.js";
 
 import { v2 as cloudinary } from "cloudinary";
@@ -28,6 +29,36 @@ export const addVideo = async (req, res) => {
         console.log(error);
       });
 
+    // Need to remove the uploaded video from the uploads directory after uploading video
+    // to cloudinary
+    fs.unlink(req.file.path, (err) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(`File ${req.file.path} deleted successfully`);
+    });
+
+    /* You can upload large videos to cloudinary int paid plan (not in free plan)
+     ** - Size limit in free plan is 100MB
+     ** - Size limit in paid plan is 2GB
+     */
+
+    // const result = await new Promise((resolve, reject) => {
+    //   cloudinary.uploader.upload_large(
+    //     req.file.path,
+    //     {
+    //       resource_type: "video",
+    //     },
+    //     (error, result) => {
+    //       if (error) {
+    //         console.log(error);
+    //         reject(error);
+    //       }
+    //       resolve(result);
+    //     }
+    //   );
+    // });
+
     room.video = {
       name: req.file.filename,
       public_id: result.public_id,
@@ -48,4 +79,19 @@ export const addVideo = async (req, res) => {
     console.log("Error in addVideo controller", error.message);
     return res.status(500).json({ error: "Internal server error" });
   }
+};
+
+export const deleteVideo = async (publicId) => {
+  await cloudinary.uploader.destroy(
+    publicId,
+    {
+      resource_type: "video",
+    },
+    (err, result) => {
+      if (err) {
+        console.log(err);
+      }
+      console.log(`File ${publicId} deleted successfully`);
+    }
+  );
 };

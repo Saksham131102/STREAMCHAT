@@ -2,6 +2,7 @@ import bcrypt from "bcryptjs";
 import Room from "../models/room.model.js";
 import Message from "../models/message.model.js";
 // import { io } from "../socket/socket.js";
+import { deleteVideo } from "./video.controller.js";
 
 export const createRoom = async (req, res) => {
   try {
@@ -129,30 +130,8 @@ export const deleteRoom = async (req, res) => {
       return res.status(500).json({ error: "Internal server error" });
     }
 
-    // SOCKET FUNCTIONALITY
-
-    // This is backend part
-    // socket.emit("deleteRoom", roomId);
-
-    // This is frontend part
-    // socket.on('deleteRoom', (roomId) => {
-    //   // making room context as empty context
-    // })
-
-    // io.in(roomId).emit("roomDeleted", roomId);
-
-    // const sockets = io.sockets.adapter.room.get(roomId) || [];
-
-    // sockets.forEach((socketId) => {
-    //   const socket = io.sockets.sockets.get(socketId);
-    //   if (sockets) {
-    //     socket.leave(roomId);
-    //   }
-    // });
-
-    // const users = io.sockets.adapter.rooms.get(roomId);
-    // const usersInRoom = users ? users.size : 0;
-    // console.log("usersInRoom", usersInRoom);
+    // Need to delete uploaded video from cloudinary as well
+    deleteVideo(deletedRoom.video.public_id);
 
     return res.status(200).json({
       _id: "",

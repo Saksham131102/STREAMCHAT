@@ -53,21 +53,8 @@ io.on("connection", (socket) => {
 
   // Delete Room
   socket.on("deleteRoom", (roomId) => {
-    // const sockets = io.sockets.adapter.room.get(roomId) || [];
-
-    // Instead of making all the users leave the room,
-    // we will make each user's room Context empty due
-    // to which the user will disconnect and itself
-    // leave the room.
-    // *
-    // *
-    // sockets.forEach((socketId) => {
-    //   const socket = io.sockets.sockets.get(socketId);
-    //   if (sockets) {
-    //     socket.leave(roomId);
-    //   }
-    // });
-
+    // on the client side, users will clear out 'room context' from local storage
+    // resulting them to exit the room.
     socket.in(roomId).emit("roomDeleted", roomId);
   });
 
