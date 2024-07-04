@@ -11,6 +11,7 @@ import { app, server } from "./socket/socket.js";
 
 app.use(
   cors({
+    accessControlAllowOrigin: "https://streamchat1.netlify.app/",
     origin: "https://streamchat1.netlify.app/",
     credentials: true,
   })
