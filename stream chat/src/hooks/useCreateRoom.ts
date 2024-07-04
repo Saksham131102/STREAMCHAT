@@ -16,7 +16,7 @@ const useCreateRoom = () => {
     setLoading(true);
     try {
       const res = await fetch(
-        "http://streamchat.onrender.com/api/room/create",
+        "https://streamchat.onrender.com/api/room/create",
         {
           method: "POST",
           headers: {
