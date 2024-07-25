@@ -92,7 +92,7 @@ const VideoSection = () => {
             </Label>
             <Input
               id="video"
-              className="cursor-pointer"
+              className="cursor-pointer text-gray-300"
               type="file"
               accept="video/*"
               onChange={handleFileChange}
