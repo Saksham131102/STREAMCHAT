@@ -64,8 +64,8 @@ const Signup = () => {
                   <FormLabel className="text-[#ababab]">Username</FormLabel>
                   <FormControl>
                     <Input
-                      className="bg-[#1f1f1f]"
-                      placeholder="johndoe@example.com"
+                      className="bg-[#1f1f1f] text-gray-300 placeholder-[#ababab]"
+                      placeholder="username"
                       {...field}
                     />
                   </FormControl>
@@ -82,7 +82,7 @@ const Signup = () => {
                   <FormControl>
                     <Input
                       type="password"
-                      className="bg-[#1f1f1f]"
+                      className="bg-[#1f1f1f] text-gray-300 placeholder-[#ababab]"
                       placeholder="your password"
                       {...field}
                     />
