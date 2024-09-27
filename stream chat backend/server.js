@@ -11,7 +11,7 @@ import { app, server } from "./socket/socket.js";
 
 app.use(
   cors({
-    origin: "https://streamchat1.netlify.app",
+    origin: "http://localhost:5173",
     credentials: true,
   })
 );
@@ -25,9 +25,9 @@ app.use("/api/room", roomRoutes);
 app.use("/api/message", messageRoutes);
 app.use("/api/video", videoRoutes);
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8000;
 
 server.listen(PORT, () => {
   connectToMongoDb();
-  console.log("Server started on port 3000");
+  console.log("Server started on port 8000");
 });

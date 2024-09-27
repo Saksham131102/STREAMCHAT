@@ -25,20 +25,17 @@ const useLogin = () => {
 
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://streamchat.onrender.com/api/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username,
-            password,
-          }),
-          credentials: "include",
-        }
-      );
+      const res = await fetch("http://localhost:8000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username,
+          password,
+        }),
+        credentials: "include",
+      });
       const data = await res.json();
 
       if (data.error) {

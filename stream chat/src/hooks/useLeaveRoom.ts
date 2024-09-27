@@ -21,7 +21,7 @@ const useLeaveRoom = () => {
   const leaveRoom = async () => {
     try {
       const res = await fetch(
-        `https://streamchat.onrender.com/api/room/leave/${room._id}`,
+        `http://localhost:8000/api/room/leave/${room._id}`,
         {
           method: "POST",
           headers: {

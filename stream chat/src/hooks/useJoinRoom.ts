@@ -14,7 +14,7 @@ const useJoinRoom = () => {
   const joinRoom = async ({ name, password }: JoinRoomProps) => {
     setLoading(true);
     try {
-      const res = await fetch("https://streamchat.onrender.com/api/room/join", {
+      const res = await fetch("http://localhost:8000/api/room/join", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

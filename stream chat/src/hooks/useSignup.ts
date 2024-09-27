@@ -31,22 +31,19 @@ const useSignup = () => {
     }
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://streamchat.onrender.com/api/auth/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            fullname,
-            username,
-            password,
-            confirmPassword,
-          }),
-          credentials: "include",
-        }
-      );
+      const res = await fetch("http://localhost:8000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          fullname,
+          username,
+          password,
+          confirmPassword,
+        }),
+        credentials: "include",
+      });
 
       const data = await res.json();
 

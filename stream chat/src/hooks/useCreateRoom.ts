@@ -15,20 +15,17 @@ const useCreateRoom = () => {
   const createRoom = async ({ name, password }: CreateRoomProps) => {
     setLoading(true);
     try {
-      const res = await fetch(
-        "https://streamchat.onrender.com/api/room/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            name,
-            password,
-          }),
-          credentials: "include",
-        }
-      );
+      const res = await fetch("http://localhost:8000/api/room/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name,
+          password,
+        }),
+        credentials: "include",
+      });
 
       const data = await res.json();
 

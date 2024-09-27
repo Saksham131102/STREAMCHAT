@@ -21,7 +21,7 @@ const useGetMessages = () => {
         setLoading(true);
         try {
           const res = await fetch(
-            `https://streamchat.onrender.com/api/message/${room._id}`,
+            `http://localhost:8000/api/message/${room._id}`,
             {
               method: "GET",
               headers: {
