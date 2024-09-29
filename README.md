@@ -14,6 +14,19 @@ StreamChat is an interactive movie, series, and TV show watching platform where 
   
 ## 🎨 Screenshots
 
+### Intro Page
+<img src="https://github.com/Saksham131102/Images/blob/main/Screenshot%202024-09-27%20at%2010.00.00%E2%80%AFAM.png?raw=true" alt="Home Page" width="700">
+
+### Homepage
+<img src="https://github.com/Saksham131102/Images/blob/main/Screenshot%202024-09-27%20at%2010.00.17%E2%80%AFAM.png?raw=true" alt="Home Page" width="700">
+
+### Room Page
+<img src="https://github.com/Saksham131102/Images/blob/main/Screenshot%202024-09-27%20at%2010.00.27%E2%80%AFAM.png?raw=true" alt="Home Page" width="700">
+
+### Room with 2 people watching a video together while chatting
+<img src="https://github.com/Saksham131102/Images/blob/main/Screenshot%202024-09-27%20at%2010.01.00%E2%80%AFAM.png?raw=true" alt="Home Page" width="700">
+
+
 ## 🔑 Key Features
 - **Real-time Chat:** Engage in real-time conversations while watching content.
 - **Watch Parties:** Create or join watch parties with friends or the community.
