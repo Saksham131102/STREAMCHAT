@@ -9,6 +9,7 @@ import {
 
 import { AlignJustify } from "lucide-react";
 import links from "@/NavigationLinks";
+import { Link } from "react-router-dom";
 
 interface Props {
   active: string;
@@ -34,19 +35,23 @@ const MenuSheet = ({ active, setActive }: Props) => {
           <div className="mt-10">
             <ul className="flex flex-col gap-3 text-xl">
               {links.map((link) => (
-                <li
+                <Link
+                  to={link.link}
                   key={link.name}
                   onClick={() => {
                     if (active !== link.name) {
                       setActive(link.name);
                     }
                   }}
-                  className={`text-[#ababab] cursor-pointer ${
-                    active === link.name ? "underline" : ""
-                  }`}
                 >
-                  {link.name}
-                </li>
+                  <li
+                    className={`text-[#ababab] cursor-pointer ${
+                      active === link.name ? "underline" : ""
+                    }`}
+                  >
+                    {link.name}
+                  </li>
+                </Link>
               ))}
             </ul>
           </div>

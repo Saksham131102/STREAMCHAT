@@ -11,6 +11,8 @@ import { useEffect } from "react";
 import { useSocketContext } from "@/context/socketContext";
 import { useMessageContext } from "./context/messageContext.tsx";
 import Homepage2 from "./pages/root/Homepage2.tsx";
+import DynamicPage from "./pages/root/DynamicPage.tsx";
+import RootLayout from "./pages/root/RootLayout.tsx";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -25,20 +27,15 @@ function App() {
   const { socket } = SocketContext;
 
   const navigate = useNavigate();
-  const emptyUser = {
-    _id: "",
-    fullname: "",
-    username: "",
-    profilePic: "",
-  };
+  const isAuthenticated = authUser._id !== "";
 
-  useEffect(() => {
-    if (room._id !== "") {
-      navigate("/home/room");
-    } else {
-      navigate("/home");
-    }
-  }, [room]);
+  // useEffect(() => {
+  //   if (room._id !== "") {
+  //     navigate("/home/room");
+  //   } else {
+  //     navigate("/home");
+  //   }
+  // }, [room]);
 
   useEffect(() => {
     socket?.on("userJoinedRoom", (data) => {
@@ -91,36 +88,30 @@ function App() {
         <Route
           path="/"
           element={
-            JSON.stringify(authUser) === JSON.stringify(emptyUser) ? (
-              <Intro />
-            ) : (
-              <Navigate to="/home" />
-            )
+            !isAuthenticated ? <Intro /> : <Navigate to="/browse/home" />
           }
         />
         <Route
           path="/signup"
           element={
-            JSON.stringify(authUser) === JSON.stringify(emptyUser) ? (
-              <Signup />
-            ) : (
-              <Navigate to="/home" />
-            )
+            !isAuthenticated ? <Signup /> : <Navigate to="/browse/home" />
           }
         />
         <Route
           path="/login"
           element={
-            JSON.stringify(authUser) === JSON.stringify(emptyUser) ? (
-              <Login />
-            ) : (
-              <Navigate to="/home" />
-            )
+            !isAuthenticated ? <Login /> : <Navigate to="/browse/home" />
           }
         />
+        <Route element={<RootLayout />}>
+          <Route
+            path="/browse/:pageName"
+            element={!isAuthenticated ? <Navigate to="/" /> : <DynamicPage />}
+          />
+        </Route>
 
         {/* Nested Routes */}
-        <Route path="/home">
+        {/* <Route path="/home">
           <Route
             index={true}
             element={
@@ -136,7 +127,11 @@ function App() {
             // element={room._id === "" ? <Navigate to="/home" /> : <RoomPage />}
             element={<RoomPage />}
           />
-        </Route>
+        </Route> */}
+        {/* <Route
+          path="/browse/home"
+          element={!isAuthenticated ? <Navigate to="/" /> : <Homepage2 />}
+        /> */}
       </Routes>
       <Toaster />
     </div>

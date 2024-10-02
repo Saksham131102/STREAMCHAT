@@ -1,4 +1,5 @@
 import links from "@/NavigationLinks";
+import { Link } from "react-router-dom";
 
 interface Props {
   active: string;
@@ -14,7 +15,8 @@ const NameAndNavigations = ({ active, setActive }: Props) => {
       </h1>
 
       {links.map((link) => (
-        <h2
+        <Link
+          to={link.link}
           key={link.name}
           onClick={() => {
             if (active !== link.name) {
@@ -26,7 +28,7 @@ const NameAndNavigations = ({ active, setActive }: Props) => {
           }`}
         >
           {link.name}
-        </h2>
+        </Link>
       ))}
     </div>
   );

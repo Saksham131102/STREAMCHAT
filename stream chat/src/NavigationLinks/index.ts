@@ -1,19 +1,19 @@
 const links = [
   {
     name: "Home",
-    link: "/home",
+    link: "/browse/home",
   },
   {
     name: "Movies",
-    link: "/movies",
+    link: "/browse/movies",
   },
   {
     name: "Web Series",
-    link: "/web-series",
+    link: "/browse/web-series",
   },
   {
     name: "TV Shows",
-    link: "/tv-shows",
+    link: "/browse/tv-shows",
   },
 ];
 
