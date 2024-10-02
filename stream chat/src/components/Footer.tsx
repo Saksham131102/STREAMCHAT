@@ -3,7 +3,7 @@ import { IoMdMail } from "react-icons/io";
 import { FaGithub } from "react-icons/fa";
 const Footer = () => {
   return (
-    <footer className="footer text-[#ababab] items-center px-32 pb-5 max-sm:px-10 bg-[#2a2a2a]">
+    <footer className="footer text-[#ababab] items-center px-32 pb-5 max-sm:px-10 bg-[#2a2a2a] font-poppins">
       <aside className="items-center grid-flow-col">
         <p>Copyright © 2024 - streamchat</p>
       </aside>

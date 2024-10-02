@@ -5,11 +5,12 @@ import Login from "./pages/auth/Login";
 import { Toaster } from "react-hot-toast";
 import { useAuthContext } from "./context/authContext";
 import { useRoomContext } from "./context/roomContext";
-import Homepage from "./pages/root/Homepage";
+// import Homepage from "./pages/root/Homepage";
 import RoomPage from "./pages/root/RoomPage.tsx";
 import { useEffect } from "react";
 import { useSocketContext } from "@/context/socketContext";
 import { useMessageContext } from "./context/messageContext.tsx";
+import Homepage2 from "./pages/root/Homepage2.tsx";
 
 function App() {
   const { authUser } = useAuthContext();
@@ -126,7 +127,7 @@ function App() {
               JSON.stringify(authUser) === JSON.stringify(emptyUser) ? (
                 <Navigate to="/" />
               ) : (
-                <Homepage />
+                <Homepage2 />
               )
             }
           />

@@ -4,9 +4,9 @@ import LogoutButton from "./LogoutButton";
 
 const Navbar = () => {
   return (
-    <div className="z-10 navbar bg-[#2a2a2a] md:px-32 px-10 shadow-xl fixed py-5">
+    <div className="z-10 navbar bg-[#2a2a2a] md:px-32 px-10 shadow-xl fixed py-5 font-poppins">
       <div className="flex-1">
-        <h1 className="text-3xl font-bold">
+        <h1 className="text-3xl font-semibold ">
           <span className="text-[#ababab]">Stream</span>
           <span className="text-[#dd0808]">Chat</span>
         </h1>

@@ -57,11 +57,11 @@ const Signup = () => {
   }
 
   return (
-    <div className="flex h-screen justify-center items-center">
+    <div className="flex h-screen justify-center items-center font-poppins">
       <div className="w-full max-w-md space-y-8">
         <div className="flex justify-center gap-2">
-          <span className="text-[#dd0808] text-3xl font-bold">Sign up</span>
-          <span className="text-3xl font-bold text-[#ababab]">
+          <span className="text-[#dd0808] text-3xl font-semibold">Sign up</span>
+          <span className="text-3xl font-semibold text-[#ababab]">
             to get started
           </span>
         </div>
